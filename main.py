@@ -93,5 +93,21 @@ plt.grid(True)
 plt.savefig('server_load_model.png')  # Зберігає графік у файл
 print("Графік моделі навантаження збережено у файл 'server_load_model.png'.")
 
+import csv
+
+# Збереження результатів дослідження похибки від N у CSV-файл
+csv_filename = "integration_results.csv"
+with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    # Заголовок таблиці
+    writer.writerow(["N_steps", "Simpson_Integral", "Absolute_Error"])
+    
+    # Запис даних для кожного N з вибірки
+    for N_val, err_val in zip(N_values, errors):
+        int_val = simpson_composite(f, a, b, N_val)
+        writer.writerow([N_val, int_val, err_val])
+
+print(f"Дані успішно збережено у файл CSV: '{csv_filename}'.")
+
 # Відображення графіків на екрані (якщо працюєте у середовищі з підтримкою GUI)
 plt.show()
